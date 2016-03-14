@@ -7,6 +7,10 @@ using Cats.Models.Hubs;
 using Cats.Models.Hubs.ViewModels;
 using Cats.Services.Hub;
 using Cats.Web.Hub;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Newtonsoft.Json;
+using Telerik.Web.Mvc;
 
 namespace Cats.Areas.Hub.Controllers
 {
@@ -188,6 +192,9 @@ namespace Cats.Areas.Hub.Controllers
                                                           CommodityChildID=receiptAllocation.CommodityID,
                                                           //UnitId=receiptAllocation.UnitID.GetValueOrDefault(),
                                                       };
+            ViewBag.Commodities = _commodityService.GetAllSubCommodities().Select(c => new CommodityModel() { Id = c.CommodityID, Name = c.Name }).ToList();
+            ViewBag.Units = _unitService.GetAllUnit().Select(u => new UnitModel() { Id = u.UnitID, Name = u.Name }).ToList();
+           
             return View(viewModel);
         }
 
@@ -203,7 +210,6 @@ namespace Cats.Areas.Hub.Controllers
             //when the combobox is disabled the commodity id is not submitted
             //var receiptAllocation = _receiptAllocationService.FindById(viewModel.ReceiptAllocationId);
             //viewModel.ReceiveDetailNewViewModel.CommodityId = receiptAllocation.CommodityID;
-            
             
             if (viewModel.ReceiveId != Guid.Empty)
             {
@@ -318,6 +324,9 @@ namespace Cats.Areas.Hub.Controllers
             ModelState.AddModelError("ReceiveDetails", "Please add at least one commodity");
             viewModel.AllocationStatusViewModel = _receiveService.GetAllocationStatus(_receiptAllocationId);
             viewModel.IsTransporterDetailVisible = !hubOwner.HubOwner.Name.Contains("WFP");
+            ViewBag.Commodities = _commodityService.GetAllSubCommodities().Select(c => new CommodityModel() { Id = c.CommodityID, Name = c.Name }).ToList();
+            ViewBag.Units = _unitService.GetAllUnit().Select(u => new UnitModel() { Id = u.UnitID, Name = u.Name }).ToList();
+           
             return View(viewModel);
         }
 
@@ -325,6 +334,17 @@ namespace Cats.Areas.Hub.Controllers
         {
             _receiptAllocationId = Guid.Parse(receiptAllocationId);
             return Json(_receiveService.GetAllocationStatus(_receiptAllocationId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ReceiveDetails_Create([DataSourceRequest] DataSourceRequest request, ReceiveDetailsViewModel receiveDetailsViewModel, Guid receiveId)
+        {
+            if (receiveDetailsViewModel != null && ModelState.IsValid)
+            {
+                //SessionProductRepository.Insert(receiveDetailsViewModel);
+
+            }
+
+            return Json(new[] { receiveDetailsViewModel }.ToDataSourceResult(request, ModelState));
         }
         #endregion
 
@@ -442,5 +462,86 @@ namespace Cats.Areas.Hub.Controllers
 
         #endregion
 
+
+        #region newReceive
+        
+        public virtual ActionResult ReadCommoditiesFromReceive(string receiveId)
+        {
+            var commodities = new List<ReceiveDetailsViewModel>();
+            if (receiveId != "" && receiveId != null)
+            {
+                commodities = ReceiveDetailsViewModel.GenerateReceiveDetailModels(_receiveService.FindById(Guid.Parse(receiveId)).ReceiveDetails);
+
+                UserProfile user = _userProfileService.GetUser(User.Identity.Name);
+
+                foreach (var gridCommodities in commodities)
+                {
+                    if (user.PreferedWeightMeasurment.Equals("qn"))
+                    {
+                        gridCommodities.ReceivedQuantityInMt *= 10;
+                        gridCommodities.SentQuantityInMt *= 10;
+                    }
+                }
+
+                string str = Request["prev"];
+                if (GetSelectedCommodities(str) != null)
+                {
+                    var allCommodities = GetSelectedCommodities(Request["prev"].ToString());
+                    int count = -1;
+                    //TODO Revise this section please
+                    foreach (var receiveDetailsViewModel in allCommodities)
+                    {
+                        if (receiveDetailsViewModel.ReceiveDetailsId == null)
+                        {
+                            //receiveDetailViewModelComms.ReceiveDetailID = count--;
+                            //receiveDetailsViewModel.ReceiveDetailCounter = count--;
+                            commodities.Add(receiveDetailsViewModel);
+                        }
+                        //
+                        // TODO the lines below are too nice to have but we need to look into the performance issue and 
+                        //policies (i.e. editing should not be allowed ) may be only for quanitities 
+
+                        else //replace the commodity read from the db by what's comming from the user
+                        {
+                            commodities.Remove(commodities.Find(p => p.ReceiveDetailsId == receiveDetailsViewModel.ReceiveDetailsId));
+                            commodities.Add(receiveDetailsViewModel);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string str = Request["prev"];
+                if (GetSelectedCommodities(str) != null)
+                {
+                    commodities = GetSelectedCommodities(Request["prev"].ToString());
+                    int count = -1;
+                    foreach (var rdm in commodities)
+                    {
+                        //TODO: Revise this section
+                        if (rdm.ReceiveDetailsId != null)
+                        {
+                            //rdm.ReceiveDetailID = count--;
+                            //rdm.ReceiveDetailCounter = count--;
+                        }
+                    }
+                }
+            }
+
+            ViewData["Commodities"] = _commodityService.GetAllSubCommodities().Select(c => new CommodityModel() { Id = c.CommodityID, Name = c.Name }).ToList();
+            ViewData["Units"] = _unitService.GetAllUnit().Select(u => new UnitModel() { Id = u.UnitID, Name = u.Name }).ToList();
+            return View(new GridModel(commodities));
+        }
+        private List<ReceiveDetailsViewModel> GetSelectedCommodities(string jsonArray)
+        {
+            List<ReceiveDetailsViewModel> commodities = new List<ReceiveDetailsViewModel>();
+            if (!string.IsNullOrEmpty(jsonArray))
+            {
+                commodities = JsonConvert.DeserializeObject<List<ReceiveDetailsViewModel>>(jsonArray);
+            }
+            return commodities;
+        }
+
+        #endregion
     }
 }

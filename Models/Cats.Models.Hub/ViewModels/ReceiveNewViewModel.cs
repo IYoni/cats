@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cats.Models.Hubs.ViewModels.Common;
 
 namespace Cats.Models.Hubs.ViewModels
 {
@@ -116,6 +117,17 @@ namespace Cats.Models.Hubs.ViewModels
 
         public AllocationStatusViewModel AllocationStatusViewModel { get; set; }
 
-        #endregion 
+        public List<ViewModels.ReceiveDetailsViewModel> ReceiveDetailsViewModel { get; set; }
+
+        [UIHint("_CommodityDropdown")]
+        public List<CommodityViewModel> CommodityViewModel { get; set; }
+
+        [UIHint("_UnitDropdown")]
+        public List<UnitViewModel> UnitViewModel { get; set; }
+
+        [UIHint("_ShippingInstructionDropdown")]
+        public List<ShippingInstructionViewModel> ShippingInstructionViewModel { get; set; }
+
+        #endregion
     }
 }

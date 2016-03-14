@@ -25,6 +25,7 @@
     <SilverlightApplicationList>
     </SilverlightApplicationList>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseGlobalApplicationHostFile />
     <!--<RunOctoPack>True</RunOctoPack>-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -104,6 +105,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -536,7 +541,6 @@
     <Compile Include="Controllers\UserPreferenceController.cs" />
     <Compile Include="CTSDataSet.cs">
       <DependentUpon>CTSDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CTSDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -718,6 +722,7 @@
     <Content Include="Areas\Logistics\Views\Swap\Edit.cshtml" />
     <Content Include="Areas\Logistics\Views\Swap\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\DetailNonFoodItems.cshtml" />
+    <Content Include="Areas\Hub\Views\Shared\EditorTemplates\_ShippingInstructionDropdown.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
