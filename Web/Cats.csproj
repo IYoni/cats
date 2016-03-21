@@ -728,6 +728,7 @@
     <Content Include="Areas\Logistics\Views\Swap\Index.cshtml" />
     <Content Include="Areas\EarlyWarning\Views\Request\DetailNonFoodItems.cshtml" />
     <Content Include="ApplicationHost.config" />
+    <Content Include="Areas\Hub\Views\ReceiveNew\Commodities.cshtml" />
     <None Include="Areas\Logistics\Views\DispatchAllocation\_AllocateProjectCode.cshtml" />
     <Content Include="Content\2013.1.219\Black\editor.png" />
     <Content Include="Content\2013.1.219\Black\imagebrowser.png" />
@@ -3708,6 +3709,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Views\Shared\EditorTemplates\AmharicDatePicker.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GuidTemplate.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UnitEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CommodityEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SIEditor.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

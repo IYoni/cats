@@ -106,6 +106,7 @@
     <Compile Include="ViewModels\DispatchReportViewModel.cs" />
     <Compile Include="ViewModels\ReceiptAllocationViewModelDto.cs" />
     <Compile Include="ViewModels\ReceiveDetailNewViewModel.cs" />
+    <Compile Include="ViewModels\ReceiveDetailsViewModel.cs" />
     <Compile Include="ViewModels\ReceiveNewViewModel.cs" />
     <Compile Include="ViewModels\ReceiveViewModelDto.cs" />
     <Compile Include="VWTransferredStock.cs" />
