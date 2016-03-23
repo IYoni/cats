@@ -6,9 +6,6 @@ using Cats.Data.UnitWork;
 using Cats.Models;
 using Cats.Models.Constant;
 using Cats.Models.Security;
-using Cats.Models.ViewModels;
-using UserProfile = Cats.Models.Security.UserProfile;
-
 
 namespace Cats.Services.EarlyWarning
 {
@@ -193,7 +190,7 @@ namespace Cats.Services.EarlyWarning
         }
 
 
-        public bool ApproveRequest(int id, Cats.Models.Security.UserInfo userInfo)
+        public bool ApproveRequest(int id, UserInfo userInfo)
         {
             var req = _unitOfWork.RegionalRequestRepository.FindById(id);
             req.Status = (int)RegionalRequestStatus.Approved;
@@ -237,12 +234,20 @@ namespace Cats.Services.EarlyWarning
                     {
                         //TODO:Uncomment this (if PSNP case team Users change their mind and want to get previous request information instead of planned information)
 
-                        var lastPsnpRequest = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).LastOrDefault();
+                        var lastPsnpRequest =
+                            _unitOfWork.RegionalRequestRepository.FindBy(
+                                r =>
+                                    r.RegionID == plan.RegionID && r.ProgramId == (int) Programs.PSNP &&
+                                    r.PlanID == plan.PSNPPlanID).LastOrDefault();
                         if (lastPsnpRequest != null)
                         {
                             result.HRDPSNPPlan.RationID = psnpplan.RationID;
                             result.HRDPSNPPlan.Contingency = lastPsnpRequest.Contingency;
-                            var noOfPsnprequests = _unitOfWork.RegionalRequestRepository.FindBy(r => r.RegionID == plan.RegionID && r.ProgramId == (int)Programs.PSNP && r.PlanID == plan.PSNPPlanID).Count;
+                            var noOfPsnprequests =
+                                _unitOfWork.RegionalRequestRepository.FindBy(
+                                    r =>
+                                        r.RegionID == plan.RegionID && r.ProgramId == (int) Programs.PSNP &&
+                                        r.PlanID == plan.PSNPPlanID).Count;
                             var psnpApplicationWoredas = (from psnpDetail in psnpplan.RegionalPSNPPlanDetails
                                                           where
                                                               psnpDetail.PlanedWoreda.AdminUnit2.AdminUnit2.AdminUnitID ==

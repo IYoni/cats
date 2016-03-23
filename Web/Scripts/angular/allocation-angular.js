@@ -4,6 +4,7 @@
 
 var $$scope;
 var timer;
+var HubId, StoreId;
 // Create app Module 
 function onsaveAllocation() {
     $$scope.saveAllocation();
@@ -18,6 +19,7 @@ app.factory("dragDropService", function ($resource)
         
         getRequisitions: $resource(Url + "?regionId=" + regionId)
         
+        
     };
     
    
@@ -26,7 +28,22 @@ app.factory("dragDropService", function ($resource)
 
 
 });
+app.factory("hubService", function ($resource)
+{
 
+    return {
+        
+        getSWarehouse: $resource("Logistics/DispatchAllocation/ReadSWarehouse"  + 1)
+        
+        
+    };
+    
+   
+    
+    
+
+
+});
 app.factory("savefactory", function ($http) {
    
     return {
@@ -54,14 +71,65 @@ app.factory("savefactory", function ($http) {
    
 });
 
-app.controller("DragDroController", function ($scope, dragDropService, savefactory)
+app.controller("DragDroController", function ($scope, $http ,dragDropService, savefactory)
 {
-
+    $scope.showModal = false;
+    $scope.WarehouseName = "";
+    
+    
+    $scope.Warehouse;
+    $scope.WarehouseList = [];
+    $scope.SWarehouseName ;
     $scope.handleDrop = function (index) {
        
-        $scope.allocated[0].HubId = index; 
+
+        HubId = index;
+        StoreId = 0;
+        if (index.indexOf(' ') === -1) {
+            
+            
+        } else {
+            var spaceIndex = index.indexOf(' ');
+           
+            HubId = index.substring(1, spaceIndex - 1);
+            StoreId = index.substring(spaceIndex + 2);
+        }
+        
+
+        $scope.allocated[0].StoreId = StoreId;
+        $scope.allocated[0].HubId = HubId;
+       // $scope.showModal = !$scope.showModal;
+
+        
+      
+      $scope.GetWarehouseList1(index);
+      
+       
+        $scope.showModal = !$scope.showModal;
+        $scope.allocated[0].HubId = index;
+       
+        
+       
+
     };
+    $scope.saveWarehouse = function (SWarehouse) {
+        
+       
+        $scope.showModal = !$scope.showModal;
+        $scope.allocated[0].SatelliteWarehouseID = SWarehouse;
+        
+    };
+   
+   
     
+    $scope.GetWarehouseList1 = function (index) {
+        $http({ method: 'GET', url: '/Logistics/DispatchAllocation/ReadSWarehouse?hubId=' + index }).success(function (data, status, headers, config) { $scope.WarehouseList = data; })
+            .error(function (data, status, headers, config) {
+
+            });
+
+       
+    };
     $scope.saveAllocation = function () {
 
         savefactory.save($scope.allocated);
@@ -169,14 +237,15 @@ app.directive('droppable', function () {
 
                     var item = document.getElementById(e.dataTransfer.getData('Text'));
                     this.appendChild(item);
-
+                    
 
                     for (var i = 0; i < $$scope.allocated.length; i++) {
                         if ($$scope.allocated[i].reqId == item.id) {
                             $$scope.allocated.splice(i, 1);
+                            
                         }
                     }
-                    $$scope.allocated.splice(0, 0, { reqId: item.id, HubId: 'index' });
+                    $$scope.allocated.splice(0, 0, { reqId: item.id, HubId: 'index',StoreId: StoreId });
 
                     scope.$apply('drop()');
 
@@ -189,5 +258,45 @@ app.directive('droppable', function () {
     };
 });
 
+app.directive('modal', function () {
+    return {
+        template: '<div class="modal fade">' +
+            '<div class="modal-dialog">' +
+              '<div class="modal-content">' +
+                '<div class="modal-header">' +
+                  '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+                  '<h4 class="modal-title">{{ title }}</h4>' +
+                '</div>' +
+                '<div class="modal-body" ng-transclude></div>' +
+              '</div>' +
+            '</div>' +
+          '</div>',
+        restrict: 'E',
+        transclude: true,
+        replace: true,
+        scope: true,
+        link: function postLink(scope, element, attrs) {
+            scope.title = attrs.title;
 
+            scope.$watch(attrs.visible, function (value) {
+                if (value == true)
+                    $(element).modal('show');
+                else
+                    $(element).modal('hide');
+            });
+
+            $(element).on('shown.bs.modal', function () {
+                scope.$apply(function () {
+                    scope.$parent[attrs.visible] = true;
+                });
+            });
+
+            $(element).on('hidden.bs.modal', function () {
+                scope.$apply(function () {
+                    scope.$parent[attrs.visible] = false;
+                });
+            });
+        }
+    };
+});
 

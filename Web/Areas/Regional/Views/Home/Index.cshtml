@@ -151,7 +151,7 @@
                                             <td>
                                                 <div>
                                                     <span>
-                                                        {{request.Status}}
+                                                        @*{{request.Status}}*@ Draft
                                                     </span>
                                                 </div>
                                             </td>
@@ -160,7 +160,7 @@
                                                     View <i class="icon-chevron-right"></i>
                                                 </a>
                                             </th>
-                                           
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -219,7 +219,11 @@
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
+<<<<<<< HEAD
                                     <button class="btn btn-sm btn-default" ONCLICK="window.location.href='RegionRequisitions'">
+=======
+                                    <button class="btn btn-sm btn-default"  ONCLICK="window.location.href='RegionRequisitions'">
+>>>>>>> b41b2e0e4adb6090ce19dd84c96eb3ac1e8a1a7f
                                         Show more
                                     </button>
 
@@ -248,6 +252,7 @@
                                             <th>{{requisition.Name}}</th>
                                             <td class="number">{{requisition.BenficiaryNo|number}}</td>
                                             <th class="number">{{requisition.Amount|number}} QT</th>
+<<<<<<< HEAD
 
                                             <td><span class="label label-danger">{{requisition.Status}}</span></td>
                                             @*<td>
@@ -256,6 +261,10 @@
                                                 </a>
                                                 <a ng-click="viewRequistion(requisition)" class="btn btn-sm btn-default"> View <i class="icon-chevron-right"></i></a>
                                             </td>*@
+=======
+                                            <td><span class="label label-danger">Approved</span></td>
+                                         
+>>>>>>> b41b2e0e4adb6090ce19dd84c96eb3ac1e8a1a7f
                                         </tr>
 
                                     </tbody>
@@ -280,7 +289,7 @@
                         <div class="portlet-content" ng-controller="stageController">
                             <div id="container" class="chartWrap" draw-requisitions-chart=""></div>
                         </div>
-                       
+
 
                     </div>
                     <!-- /.portlet -->
@@ -318,9 +327,13 @@
                             </h3>
                             <ul class="portlet-tools pull-right">
                                 <li>
+<<<<<<< HEAD
                                     
                                     <a class="btn btn-sm btn-default" href="@Url.Action("Index", "Dispatch", new { Area = "Hub"})">Show More</a>
                                     <a class="btn btn-sm btn-default" href="@Url.Action("Index", "DeliveryReconcile", new { Area = "Logistics", regionID = ViewBag.RegionID })">FDP Commodity Receipt</a>
+=======
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "Dispatch", new { Area = "Regional", regionID = ViewBag.RegionID })">Show More</a>                         
+>>>>>>> b41b2e0e4adb6090ce19dd84c96eb3ac1e8a1a7f
                                 </li>
                             </ul>
                         </div>
@@ -341,7 +354,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
 
                                         <tr class="" ng-repeat="dispatch in Dispatches">
                                             <td>{{dispatch[0].Value}}</td>
@@ -420,10 +433,8 @@
                             </h3>
                             <ul class=" pull-right portlet-tools ">
                                 <li>
-                                    <button class="btn btn-sm btn-default">
-                                        Show more
-                                    </button>
 
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("Index", "WoredaStockDistribution", new { Area = "Logistics", regionID = ViewBag.RegionID })"> Show more</a>
                                 </li>
                             </ul>
                         </div>
@@ -443,54 +454,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="">
-                                            <td class="hidden-xs">2055</td>
-                                            <td>Dawent</td>
-                                            <td class="number">{{80|number}}</td>
-                                            <td><span class="label label-default">On process</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
 
-                                        <tr class="">
-                                            <td class="hidden-xs">1206</td>
-                                            <td>Adhar</td>
-                                            <td>{{45|number}}</td>
-                                            <td><span class="label label-success">Completed</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
 
-                                        <tr class="">
-                                            <td class="hidden-xs">1207</td>
-                                            <td>Adhar</td>
-                                            <td>{{24|number}}</td>
-                                            <td><span class="label label-success">Completed</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        <tr class="" ng-repeat="Distribution in Distribtion">
+                                            <td>{{Distribution.plan}}</td>
+                                            <th>{{Distribution.Woreda}}</th>
+                                            <td class="number">{{Distribution.Fdps}}</td>
+                                            <th>{{Distribution.status}} </th>
 
-                                        <tr class="">
-                                            <td class="hidden-xs">2206</td>
-                                            <td>Adhar</td>
-                                            <td>{{56|number}}</td>
-                                            <td><span class="label label-success">Completed</span></td>
-                                            <td>
-                                                <a href="javascript:;" class="btn btn-sm btn-default">
-                                                    View <i class="icon-chevron-right"></i>
-                                                </a>
-                                            </td>
                                         </tr>
-
 
                                     </tbody>
                                 </table>
@@ -516,7 +488,7 @@
                             <div id="Age" class="chartWrap" draw-age-chart></div>
                         </div>
 
-                      
+
                         <!-- /.portlet-content -->
 
                     </div>
@@ -570,8 +542,8 @@
                 <!-- /.portlet -->
             </div>
         </div>
-        
-        
+
+
         <div>
             <div class="row" style="border-bottom-width: thin; border-bottom-color: #666; border-bottom-style: inset; margin-top: 5px">
                 <div class="pull-left">
@@ -644,7 +616,7 @@
     $("#RequisitionHeader").click(function () {
         $("#RequisitionContent").slideToggle("slow", "linear");
     });
-    
+
     $("#AllocationChangeHeader").click(function () {
         $("#AllocationChangeContent").slideToggle("slow", "linear");
     });
@@ -667,6 +639,8 @@
         $scope.AllocationChanges = [];
         $scope.Dispatches = [];
         $scope.Data = [];
+        $scope.Distribtion = [];
+
 
 
         var onRequestsSuccess = function (data) {
@@ -676,7 +650,7 @@
         var onRequisitionsSuccess = function (data) {
             $scope.Requisitions = data;
         };
-        
+
         var onAllocationChangesSuccess = function (data) {
             $scope.AllocationChanges = data;
         };
@@ -684,7 +658,9 @@
         var onDispatchesSuccess = function (data) {
             $scope.Dispatches = data;
         };
-
+        var onDistributionSuccess = function (data) {
+            $scope.Distribtion = data;
+        };
         var onDashboardDataSuccess = function (data) {
             $scope.Data = data;
         };
@@ -698,7 +674,7 @@
         $scope.getRequisitions = function () {
             $http.post("@Url.Action("Requisitions", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onRequisitionsSuccess);
         };
-        
+
         $scope.getAllocationChanges = function () {
             $http.post("@Url.Action("AllocationChanges", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onAllocationChangesSuccess);
         };
@@ -707,18 +683,20 @@
             $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
         };
 
-        $scope.getDispatches = function () {
-            $http.post("@Url.Action("Dispatches", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDispatchesSuccess);
+        $scope.getDistribution = function () {
+            $http.post("@Url.Action("Distributions", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDistributionSuccess);
         };
-        
+
         $scope.getRegionalData = function () {
             $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
         };
-
+        $scope.getRegionalData = function () {
+            $http.post("@Url.Action("RegionalData", "FetchData", new { Area = "Regional" })", $scope.reqParam).success(onDashboardDataSuccess);
+        };
         $scope.viewRequistion = function (item) {
             window.location = "@Url.Action("Allocation","ReliefRequisition",new {Area="EarlyWarning"})" + "?id=" + +item.RequisitionID;
         };
-        
+
         $scope.viewRequest = function (item) {
             window.location = "@Url.Action("Details","Request",new {Area="EarlyWarning"})" + "?id=" + +item.RegionalRequestID;
          };
@@ -728,6 +706,7 @@
         $scope.getAllocationChanges();
         $scope.getDispatches();
         $scope.getRegionalData();
+        $scope.getDistribution();
     }
 
 

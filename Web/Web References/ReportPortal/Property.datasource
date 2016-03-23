@@ -6,5 +6,9 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="Property" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+<<<<<<< HEAD
    <TypeInfo>Cats.ReportPortal.Property, Web References.ReportPortal.Reference.cs.dll, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+=======
+   <TypeInfo>Cats.ReportPortal.Property</TypeInfo>
+>>>>>>> b41b2e0e4adb6090ce19dd84c96eb3ac1e8a1a7f
 </GenericObjectDataSource>

@@ -2,10 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using Cats.Models;
-using Cats.Data.UnitWork;
 using System.Linq;
+using System.Linq.Expressions;
+using Cats.Data.UnitWork;
+using Cats.Models;
 
 namespace Cats.Services.EarlyWarning
 {
@@ -42,7 +42,12 @@ namespace Cats.Services.EarlyWarning
                     RequisitionID = appRequisition.ReqId,
                     AllocationDate = DateTime.Now.Date,
                     ReferenceNo = "001",
-                    HubID = appRequisition.HubId
+                    HubID = appRequisition.HubId,
+
+                   // StoreId = appRequisition.StoreId,
+
+                    SatelliteWarehouseID= appRequisition.SatelliteWarehouseID
+
                 };
                 AddHubAllocation(newHubAllocation);
             }
