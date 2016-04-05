@@ -78,11 +78,13 @@ namespace Cats.Areas.EarlyWarning.Controllers
             var region = _needAssessmentService.FindBy(t => t.NeedAID == id).SingleOrDefault();
             if (region != null) ViewData["region"] = region.Region;
             ViewData["Id"] = id;
+
             if (region != null) ViewData["RegionName"] = region.AdminUnit.Name;
 
             if (region != null) ViewBag.Zones = _adminUnitService.GetZones(region.Region).ToList();
 
             var needAssessment = _needAssessmentService.FindById(id);
+            ViewData["Status"] = needAssessment.Plan.Status;
             return View(needAssessment);
         }
         public ActionResult Approved()
