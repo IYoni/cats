@@ -129,6 +129,7 @@ namespace Cats.Helpers
         {
            var extractedUrl=  AbsURL.Substring(AbsURL.IndexOf("//", StringComparison.Ordinal) + 1);
             extractedUrl= extractedUrl.Substring(extractedUrl.IndexOf("//", StringComparison.Ordinal) + 1);
+            extractedUrl = VirtualPathUtility.ToAbsolute(extractedUrl);
             return extractedUrl;
         }
 
